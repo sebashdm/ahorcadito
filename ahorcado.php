@@ -20,16 +20,32 @@ const MAX_ATTEMPS = 7;
  $letterGuessed = [];
 do{
     echo 'por favor digite una letra' . PHP_EOL;
-    $letter = trim(fgetc(STDIN));
-    $letters =  str_split_unicode($secretWord);
+    $letter = trim(fgetc(STDIN)); // separa la letra
+    $letters =  str_split_unicode($secretWord); // combientre la palabra en un array
+
     if(in_array($letter,$letters)){
+
         $letterGuessed[] = $letter;
+
         echo 'correcto: ' . get_guessed_word($secretWord, $letterGuessed).PHP_EOL;
     }else{
         echo 'incorrecto: '. get_guessed_word($secretWord, $letterGuessed) . PHP_EOL;
     }
     $attemps++;
-}while($attemps < MAX_ATTEMPS);
+
+}while($attemps < MAX_ATTEMPS && !is_word_guessed($secretWord,$letterGuessed));
+
+if(is_word_guessed($secretWord,$letterGuessed)){
+    echo "Ganaste" . PHP_EOL;
+
+}else {
+    echo "Perdiste" . PHP_EOL;
+}
+
+function is_word_guessed(string $secretWord, array $letterGuessed) : bool{ // verifica si la palabra ya esta adivinada
+   return $secretWord == get_guessed_word($secretWord,$letterGuessed);
+
+}
 
 
 
